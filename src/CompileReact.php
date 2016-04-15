@@ -112,7 +112,7 @@ class CompileReact
      * Make HTTP request to the React compiler URL.
      *
      * @param  \GuzzleHttp\Client  $client
-     * @return void
+     * @return string|null
      */
     protected function getResponse(Client $client = null)
     {
