@@ -1,0 +1,37 @@
+{
+    "name": "estey/laravel-react-middleware",
+    "description": "Middleware for React server-side rendering in Laravel.",
+    "keywords": ["laravel", "react", "reactjs", "server-side rendering", "middleware"],
+    "homepage": "http://www.bradestey.com/projects/laravel-react-middleware",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brad Estey",
+            "email": "me@bradestey.com",
+            "homepage": "http://www.bradestey.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/framework": "5.2.*",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*",
+        "mockery/mockery": "0.9.*",
+        "squizlabs/php_codesniffer": "2.6.*",
+        "satooshi/php-coveralls": "1.0.*",
+        "psr/http-message": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Estey\\ReactMiddleware\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Estey\\ReactMiddleware\\Test\\": "test"
+        }
+    }
+}
