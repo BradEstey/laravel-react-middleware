@@ -61,7 +61,7 @@ class CompileReact
         Request $request,
         Closure $next,
         $contentKey = 'content',
-        $ajaxRespondsWithJson = true
+        $ajaxRespondsWithJson = null
     ) {
         $this->path = $request->path();
         $this->response = $next($request);
@@ -74,7 +74,7 @@ class CompileReact
             );
         }
 
-        if ($ajaxRespondsWithJson and $request->ajax()) {
+        if ($ajaxRespondsWithJson !== 'false' and $request->ajax()) {
             return $this->respondWithJson();
         }
 
