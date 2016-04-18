@@ -1,7 +1,7 @@
 Laravel React Compiler Middleware
 =================================
 
-[![Latest Stable Version](http://img.shields.io/packagist/v/estey/laravel-react-middleware.svg)](https://packagist.org/packages/estey/laravel-react-middleware) [![Build Status](https://travis-ci.org/BradEstey/laravel-react-middleware.svg)](https://travis-ci.org/BradEstey/laravel-react-middleware) [![Coverage Status](https://img.shields.io/coveralls/BradEstey/laravel-react-middleware.svg)](https://coveralls.io/r/BradEstey/laravel-react-middleware)
+[![Latest Stable Version](http://img.shields.io/packagist/v/estey/laravel-react-middleware.svg)](https://packagist.org/packages/estey/laravel-react-middleware) [![Build Status](https://travis-ci.org/BradEstey/laravel-react-middleware.svg)](https://travis-ci.org/BradEstey/laravel-react-middleware) [![Coverage Status](https://coveralls.io/repos/github/BradEstey/laravel-react-middleware/badge.svg?branch=master)](https://coveralls.io/github/BradEstey/laravel-react-middleware?branch=master)
 
 This is a [Laravel](https://laravel.com) middleware used to help with [React Server-size Rendering](https://facebook.github.io/react/docs/environments.html#node). This middleware makes an HTTP request to a local [Node.js](https://nodejs.org) server compiling the React application. It then injects the returned HTML into your Laravel view. Use [Blade Templates](https://laravel.com/docs/5.2/blade) as you would normally.
 
