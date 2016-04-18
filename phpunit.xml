@@ -11,8 +11,12 @@
          syntaxCheck="false"
 >
     <testsuites>
-        <testsuite name="Evernote OCR Unit Tests">
+        <testsuite name="Laravel React Compiler Unit Tests">
             <directory suffix="Test.php">test/</directory>
+            <exclude>
+                <file>src/Config/react.php</file>
+                <file>src/ReactCompilerServiceProvider.php</file>
+            </exclude>
         </testsuite>
     </testsuites>
     <filter>
