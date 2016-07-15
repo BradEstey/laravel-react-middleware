@@ -105,7 +105,11 @@ class CompileReact
         $host = $this->config->get('react.host', 'localhost');
         $port = $this->config->get('react.port', 3000);
 
-        return $host . ':' . $port . $this->path;
+        $path = $this->path;
+        if ($path and substr($path, 0, 1) !== '/') {
+            $path = '/' . $path;
+        }
+        return $host . ':' . $port . $path;
     }
 
     /**
