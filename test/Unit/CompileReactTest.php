@@ -41,6 +41,10 @@ class CompileReactTest extends TestCase
             ->shouldReceive('path')
             ->once();
 
+        $request
+            ->shouldReceive('query')
+            ->once();
+
         $this->response
             ->shouldReceive('getOriginalContent')
             ->once()
@@ -84,6 +88,10 @@ class CompileReactTest extends TestCase
             ->shouldReceive('path')
             ->once();
 
+        $request
+            ->shouldReceive('query')
+            ->once();
+
         $this->response
             ->shouldReceive('getOriginalContent')
             ->once()
@@ -120,6 +128,10 @@ class CompileReactTest extends TestCase
 
         $request
             ->shouldReceive('path')
+            ->once();
+
+        $request
+            ->shouldReceive('query')
             ->once();
 
         $this->response
@@ -163,6 +175,10 @@ class CompileReactTest extends TestCase
 
         $request
             ->shouldReceive('path')
+            ->once();
+
+        $request
+            ->shouldReceive('query')
             ->once();
 
         $this->response
@@ -231,6 +247,7 @@ class CompileReactTest extends TestCase
             ->andReturn(3000);
 
         $this->setInaccessible($stub, 'path', '/');
+        $this->setInaccessible($stub, 'query', []);
 
         $this->assertEquals(
             $this->callInaccessibleMethod($stub, 'getCompilerUrl'),
@@ -251,6 +268,7 @@ class CompileReactTest extends TestCase
         )->shouldAllowMockingProtectedMethods();
 
         $this->setInaccessible($mock, 'view', $this->view);
+        $this->setInaccessible($mock, 'query', ['foo' => 'bar-baz']);
 
         $mock->shouldReceive('getCompilerUrl')->once()->andReturn('localhost');
 
@@ -275,6 +293,7 @@ class CompileReactTest extends TestCase
             ->andReturn(15);
 
         $options = [
+            'query' => ['foo' => 'bar-baz'],
             'json' => ['foo' => 'bar'],
             'connect_timeout' => 1,
             'timeout' => 15
@@ -310,6 +329,7 @@ class CompileReactTest extends TestCase
         )->shouldAllowMockingProtectedMethods();
 
         $this->setInaccessible($mock, 'view', $this->view);
+        $this->setInaccessible($mock, 'query', []);
 
         $mock->shouldReceive('getCompilerUrl')->once()->andReturn('localhost');
 
@@ -334,6 +354,7 @@ class CompileReactTest extends TestCase
             ->andReturn(15);
 
         $options = [
+            'query' => [],
             'json' => ['foo' => 'bar'],
             'connect_timeout' => 1,
             'timeout' => 15
