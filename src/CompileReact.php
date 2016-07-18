@@ -20,6 +20,12 @@ class CompileReact
     protected $path;
 
     /**
+     * Request Query String.
+     * @var array
+     */
+    protected $query;
+
+    /**
      * Response Object.
      * @var \Illuminate\Http\Response
      */
@@ -64,6 +70,7 @@ class CompileReact
         $ajaxRespondsWithJson = null
     ) {
         $this->path = $request->path();
+        $this->query = $request->query();
         $this->response = $next($request);
         $this->view = $this->response->getOriginalContent();
 
@@ -124,6 +131,7 @@ class CompileReact
 
         try {
             $content = $client->request('POST', $this->getCompilerUrl(), [
+                'query' => $this->query,
                 'json' => $this->view->getData(),
                 'connect_timeout' => $this->config->get('react.connect_timeout', 0),
                 'timeout' => $this->config->get('react.timeout', 0)
