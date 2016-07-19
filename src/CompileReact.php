@@ -98,7 +98,7 @@ class CompileReact
     protected function compile($contentKey)
     {
         $content = $this->getResponse();
-        $contents = is_string($content) ? [$contentKey => $content] : $content;
+        $contents = !is_object($content) ? [$contentKey => $content] : $content;
 
         foreach ($contents as $key => $value) {
             $this->view->with($key, $value);

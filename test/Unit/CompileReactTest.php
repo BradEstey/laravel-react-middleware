@@ -191,11 +191,10 @@ class CompileReactTest extends TestCase
     }
 
     /**
-     * Test compile() method.
-     *
-     * @return void
+     * Helper method for testing the compile() method.
+     * @return [type] [description]
      */
-    public function testCompile()
+    protected function compile($compileKey, $shouldRespond, $shouldReturn)
     {
         $mock = m::mock(
             'Estey\ReactMiddleware\CompileReact[getResponse]',
@@ -205,24 +204,48 @@ class CompileReactTest extends TestCase
         $this->setInaccessible($mock, 'response', $this->response);
         $this->setInaccessible($mock, 'view', $this->view);
 
-        $mock->shouldReceive('getResponse')->once()->andReturn('foo bar');
+        $mock->shouldReceive('getResponse')->once()->andReturn($shouldRespond);
 
-        $this->view
-            ->shouldReceive('with')
-            ->once()
-            ->with('foo', 'foo bar')
-            ->andReturn($this->view);
+        if (is_object($shouldRespond)) {
+            foreach ($shouldRespond as $key => $value) {
+                $this->view
+                    ->shouldReceive('with')
+                    ->once()
+                    ->with($key, $value)
+                    ->andReturn($this->view);
+            }
+        } else {
+            $this->view
+                ->shouldReceive('with')
+                ->once()
+                ->with($compileKey, $shouldRespond)
+                ->andReturn($this->view);
+        }
+
 
         $this->response
             ->shouldReceive('setContent')
             ->once()
             ->with($this->view)
-            ->andReturn('foo bar baz');
+            ->andReturn($shouldReturn);
 
         $this->assertEquals(
-            $this->callInaccessibleMethod($mock, 'compile', ['foo']),
-            'foo bar baz'
+            $this->callInaccessibleMethod($mock, 'compile', [$compileKey]),
+            $shouldReturn
         );
+    }
+
+    /**
+     * Test compile() method.
+     *
+     * @return void
+     */
+    public function testCompile()
+    {
+        $this->compile('foo', 'foo bar', 'foo bar baz');
+        $this->compile('foo', null, 'foo bar baz');
+        $this->compile('', (object) ['foo' => 'bar'], 'foo bar baz');
+        $this->compile('', (object) ['foo' => 'bar', 'baz' => 'bar'], 'foo bar baz');
     }
 
     /**
@@ -422,7 +445,7 @@ class CompileReactTest extends TestCase
 
     /**
      * Test the isJson() method.
-     * 
+     *
      * @return void
      */
     public function testIsJson()
