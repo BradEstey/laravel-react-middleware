@@ -8,6 +8,7 @@ This is a [Laravel](https://laravel.com) middleware used to help with [React Ser
 - [How it Works](#how-it-works)
 - [Installation](#installation)
 - [Configuration](#configuration)
+- [Merge JSON Response](#merge-json-response)
 
 How it Works
 ------------
@@ -102,3 +103,17 @@ To disable the JSON response on AJAX requests, pass "false" to the second parame
 ``` php
 Route::get('/', ['middleware' => 'react:content,false', 'uses' => 'HomeController@index']);
 ```
+
+Merge JSON Response
+-------------------
+
+If your Node.js application responds with JSON instead of a plain HTML string, then the JSON will be parsed and merged into your view. So for example, if your Node.js application responds with:
+
+``` json
+{
+  "content": "<div>Hello World</div>",
+  "metaKeywords": "foo, bar, baz"
+}
+```
+
+Then, both the `$content` variable and the `$metaKeywords` variable will be accessible in your view file.
