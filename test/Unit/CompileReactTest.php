@@ -463,9 +463,5 @@ class CompileReactTest extends TestCase
         $this->assertFalse(
             $this->callInaccessibleMethod($stub, 'isJson', ['foo bar'])
         );
-
-        $this->assertTrue(
-            $this->callInaccessibleMethod($stub, 'isJson', [null])
-        );
     }
 }
