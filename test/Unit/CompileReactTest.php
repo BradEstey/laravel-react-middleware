@@ -256,11 +256,11 @@ class CompileReactTest extends TestCase
     }
 
     /**
-     * Test getResponse() method.
+     * Helper method for testing the getResponse() method.
      *
      * @return void
      */
-    public function testGetResponse()
+    protected function getResponse($shouldRespond, $shouldReturn)
     {
         $mock = m::mock(
             'Estey\ReactMiddleware\CompileReact[getCompilerUrl]',
@@ -274,6 +274,7 @@ class CompileReactTest extends TestCase
 
         $client = m::mock('GuzzleHttp\Client');
         $response = m::mock('Psr\Http\Message\ResponseInterface');
+        $stream = m::mock('Psr\Http\Message\StreamInterface');
 
         $this->view
             ->shouldReceive('getData')
@@ -308,11 +309,30 @@ class CompileReactTest extends TestCase
         $response
             ->shouldReceive('getBody')
             ->once()
-            ->andReturn('foo bar baz');
+            ->andReturn($stream);
+
+        $stream
+            ->shouldReceive('getContents')
+            ->once()
+            ->andReturn($shouldRespond);
 
         $this->assertEquals(
             $this->callInaccessibleMethod($mock, 'getResponse', [$client]),
-            'foo bar baz'
+            $shouldReturn
+        );
+    }
+
+    /**
+     * Test getResponse() method.
+     *
+     * @return void
+     */
+    public function testGetResponse()
+    {
+        $this->getResponse('foo bar baz', 'foo bar baz');
+        $this->getResponse(
+            '{"foo": {"bar": "baz"}}',
+            (object) ['foo' => (object) ['bar' => 'baz']]
         );
     }
 
@@ -397,6 +417,32 @@ class CompileReactTest extends TestCase
         $this->assertEquals(
             $this->callInaccessibleMethod($stub, 'respondWithJson'),
             '{ "foo": "bar" }'
+        );
+    }
+
+    /**
+     * Test the isJson() method.
+     * 
+     * @return void
+     */
+    public function testIsJson()
+    {
+        $stub = new CompileReact($this->config);
+
+        $this->assertTrue(
+            $this->callInaccessibleMethod($stub, 'isJson', ['{ "foo": "bar" }'])
+        );
+
+        $this->assertFalse(
+            $this->callInaccessibleMethod($stub, 'isJson', ['{ "foo":: bar }'])
+        );
+
+        $this->assertFalse(
+            $this->callInaccessibleMethod($stub, 'isJson', ['foo bar'])
+        );
+
+        $this->assertTrue(
+            $this->callInaccessibleMethod($stub, 'isJson', [null])
         );
     }
 }

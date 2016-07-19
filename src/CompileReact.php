@@ -97,7 +97,12 @@ class CompileReact
      */
     protected function compile($contentKey)
     {
-        $this->view->with($contentKey, (string) $this->getResponse());
+        $content = $this->getResponse();
+        $content = is_string($content) ? [$contentKey => $content] : $content;
+
+        foreach ($content as $key => $value) {
+            $this->view->with($key, $value);
+        }
 
         return $this->response->setContent($this->view);
     }
@@ -123,7 +128,7 @@ class CompileReact
      * Make HTTP request to the React compiler URL.
      *
      * @param  \GuzzleHttp\Client  $client
-     * @return string|null
+     * @return string|object|null
      */
     protected function getResponse(Client $client = null)
     {
@@ -135,7 +140,12 @@ class CompileReact
                 'json' => $this->view->getData(),
                 'connect_timeout' => $this->config->get('react.connect_timeout', 0),
                 'timeout' => $this->config->get('react.timeout', 0)
-            ])->getBody();
+            ])->getBody()
+            ->getContents();
+
+            if ($this->isJson($content)) {
+                $content = json_decode($content);
+            }
         } catch (Exception $e) {
             $content = null;
         }
@@ -151,5 +161,17 @@ class CompileReact
     protected function respondWithJson()
     {
         return $this->response->setContent($this->view->getData());
+    }
+
+    /**
+     * Is the given string JSON?
+     *
+     * @param  string  $string
+     * @return boolean
+     */
+    protected function isJson($string)
+    {
+        json_decode($string);
+        return json_last_error() == JSON_ERROR_NONE;
     }
 }
