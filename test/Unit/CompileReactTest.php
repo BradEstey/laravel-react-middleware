@@ -279,6 +279,36 @@ class CompileReactTest extends TestCase
     }
 
     /**
+     * Test getCompilerUrl() method prefix path.
+     *
+     * @return void
+     */
+    public function testGetCompilerUrlPrefixPath()
+    {
+        $stub = new CompileReact($this->config);
+
+        $this->config
+            ->shouldReceive('get')
+            ->once()
+            ->with('react.host', 'localhost')
+            ->andReturn('localhost');
+
+        $this->config
+            ->shouldReceive('get')
+            ->once()
+            ->with('react.port', 3000)
+            ->andReturn(3000);
+
+        $this->setInaccessible($stub, 'path', 'foo-bar');
+        $this->setInaccessible($stub, 'query', []);
+
+        $this->assertEquals(
+            $this->callInaccessibleMethod($stub, 'getCompilerUrl'),
+            'localhost:3000/foo-bar'
+        );
+    }
+
+    /**
      * Helper method for testing the getResponse() method.
      *
      * @return void
