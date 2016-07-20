@@ -104,7 +104,7 @@ class CompileReactTest extends TestCase
             ->andReturn('foo bar baz');
 
         $this->assertEquals(
-            $mock->handle($request, $next, 'foo', 'false'),
+            $mock->handle($request, $next, 'foo', 'disable_json'),
             'foo bar baz'
         );
     }

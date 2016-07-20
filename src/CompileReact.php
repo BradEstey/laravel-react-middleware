@@ -81,7 +81,7 @@ class CompileReact
             );
         }
 
-        if ($ajaxRespondsWithJson !== 'false' and $request->ajax()) {
+        if ($ajaxRespondsWithJson !== 'disable_json' and $request->ajax()) {
             return $this->respondWithJson();
         }
 

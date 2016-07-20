@@ -98,10 +98,10 @@ AJAX requests to this route will return the data array passed to your view as pl
 { "title": "Your title here." }
 ```
 
-To disable the JSON response on AJAX requests, pass "false" to the second parameter.
+To disable the JSON response on AJAX requests, pass "disable_json" to the second parameter.
 
 ``` php
-Route::get('/', ['middleware' => 'react:content,false', 'uses' => 'HomeController@index']);
+Route::get('/', ['middleware' => 'react:content,disable_json', 'uses' => 'HomeController@index']);
 ```
 
 Merge JSON Response
