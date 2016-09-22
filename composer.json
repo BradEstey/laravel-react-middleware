@@ -1,6 +1,6 @@
 {
     "name": "estey/laravel-react-middleware",
-    "description": "Middleware for React server-side rendering in Laravel.",
+    "description": "Middleware for React.js server-side rendering in Laravel.",
     "keywords": ["laravel", "react", "reactjs", "server-side rendering", "middleware"],
     "homepage": "http://www.bradestey.com/projects/laravel-react-middleware",
     "license": "MIT",

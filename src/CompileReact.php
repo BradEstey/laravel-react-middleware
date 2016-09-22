@@ -59,14 +59,12 @@ class CompileReact
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string  $contentKey
-     * @param  boolean  $isAjaxRespondWithJson
+     * @param  string  $ajaxRespondsWithJson
      * @return mixed
      */
     public function handle(
         Request $request,
         Closure $next,
-        $contentKey = 'content',
         $ajaxRespondsWithJson = null
     ) {
         $this->path = $request->path();
@@ -85,20 +83,19 @@ class CompileReact
             return $this->respondWithJson();
         }
 
-        return $this->compile($contentKey);
+        return $this->compile();
     }
 
     /**
      * Make an HTTP request to the React compiler. Return the
      * compiled view string.
      *
-     * @param  string  $contentKey
      * @return \Illuminate\Http\Response
      */
-    protected function compile($contentKey)
+    protected function compile()
     {
         $content = $this->getResponse();
-        $contents = !is_object($content) ? [$contentKey => $content] : $content;
+        $contents = !is_object($content) ? compact('content') : $content;
 
         foreach ($contents as $key => $value) {
             $this->view->with($key, $value);

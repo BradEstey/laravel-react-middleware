@@ -58,7 +58,6 @@ class CompileReactTest extends TestCase
         $mock
             ->shouldReceive('compile')
             ->once()
-            ->with('content')
             ->andReturn('foo bar baz');
 
         $this->assertEquals(
@@ -100,11 +99,10 @@ class CompileReactTest extends TestCase
         $mock
             ->shouldReceive('compile')
             ->once()
-            ->with('foo')
             ->andReturn('foo bar baz');
 
         $this->assertEquals(
-            $mock->handle($request, $next, 'foo', 'disable_json'),
+            $mock->handle($request, $next, 'disable_json'),
             'foo bar baz'
         );
     }
@@ -192,9 +190,12 @@ class CompileReactTest extends TestCase
 
     /**
      * Helper method for testing the compile() method.
-     * @return [type] [description]
+     *
+     * @param  $shouldRespond  string
+     * @param  $shouldReturn  string
+     * @return void
      */
-    protected function compile($compileKey, $shouldRespond, $shouldReturn)
+    protected function compile($shouldRespond, $shouldReturn)
     {
         $mock = m::mock(
             'Estey\ReactMiddleware\CompileReact[getResponse]',
@@ -218,7 +219,7 @@ class CompileReactTest extends TestCase
             $this->view
                 ->shouldReceive('with')
                 ->once()
-                ->with($compileKey, $shouldRespond)
+                ->with('content', $shouldRespond)
                 ->andReturn($this->view);
         }
 
@@ -242,10 +243,10 @@ class CompileReactTest extends TestCase
      */
     public function testCompile()
     {
-        $this->compile('foo', 'foo bar', 'foo bar baz');
-        $this->compile('foo', null, 'foo bar baz');
-        $this->compile('', (object) ['foo' => 'bar'], 'foo bar baz');
-        $this->compile('', (object) ['foo' => 'bar', 'baz' => 'bar'], 'foo bar baz');
+        $this->compile('foo bar', 'foo bar baz');
+        $this->compile(null, 'foo bar baz');
+        $this->compile((object) ['foo' => 'bar'], 'foo bar baz');
+        $this->compile((object) ['foo' => 'bar', 'baz' => 'bar'], 'foo bar baz');
     }
 
     /**
@@ -311,6 +312,8 @@ class CompileReactTest extends TestCase
     /**
      * Helper method for testing the getResponse() method.
      *
+     * @param  $shouldRespond  string
+     * @param  $shouldReturn  string
      * @return void
      */
     protected function getResponse($shouldRespond, $shouldReturn)

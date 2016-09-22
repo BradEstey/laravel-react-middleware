@@ -86,11 +86,6 @@ In the config file you can change the host and port of the compiler server and c
 
 ---
 
-To change the variable name that will contain the HTML and be passed to your view, use the first parameter of the middleware definition.
-
-``` php
-Route::get('/', ['middleware' => 'react:layout', 'uses' => 'HomeController@index']);
-```
 
 AJAX requests to this route will return the data array passed to your view as plain JSON. So the example above would return:
 
@@ -98,10 +93,10 @@ AJAX requests to this route will return the data array passed to your view as pl
 { "title": "Your title here." }
 ```
 
-To disable the JSON response on AJAX requests, pass "disable_json" to the second parameter.
+To disable the JSON response on AJAX requests, pass "disable_json" to the first parameter.
 
 ``` php
-Route::get('/', ['middleware' => 'react:content,disable_json', 'uses' => 'HomeController@index']);
+Route::get('/', ['middleware' => 'react:disable_json', 'uses' => 'HomeController@index']);
 ```
 
 Merge JSON Response
