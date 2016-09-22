@@ -231,7 +231,7 @@ class CompileReactTest extends TestCase
             ->andReturn($shouldReturn);
 
         $this->assertEquals(
-            $this->callInaccessibleMethod($mock, 'compile', [$compileKey]),
+            $this->callInaccessibleMethod($mock, 'compile'),
             $shouldReturn
         );
     }
